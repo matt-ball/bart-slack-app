@@ -13,3 +13,9 @@ Find out when the next BART is via Slack.
 If you do not wish to use the public BART API key, please update your `config.js`.
 
 Consult Makefile for everything else.
+
+## Deployment
+
+This example uses ZEIT Now v1
+https://zeit.co/docs/v1/
+`npm i -g now`
