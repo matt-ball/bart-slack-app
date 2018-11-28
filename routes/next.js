@@ -5,9 +5,14 @@ const stations = require('./helpers/stations')
 
 module.exports = async function next (req, res) {
   const { text } = req.body
-  const stringArr = text.split(' ')
-  const orig = getStation(stringArr[3])
-  const dest = getStation(stringArr[1])
+  const stringArr = text.substring(5).split(' from ')
+
+  if (stringArr.length !== 2) {
+    res.send('Invalid command!')
+  }
+
+  const orig = getStation(stringArr[1])
+  const dest = getStation(stringArr[0])
 
   const url = [
     `https://api.bart.gov/api/sched.aspx`,
