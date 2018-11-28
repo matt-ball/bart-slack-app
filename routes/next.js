@@ -9,6 +9,7 @@ module.exports = async function next (req, res) {
 
   if (stringArr.length !== 2) {
     res.send('Invalid command!')
+    return
   }
 
   const orig = getStation(stringArr[1])
@@ -26,7 +27,7 @@ module.exports = async function next (req, res) {
 
   const result = await axios.get(url)
 
-  if (result) {
+  if (result && result.data && result.data.root) {
     const { schedule } = result.data.root
     const { date, time, request } = schedule
     const requestDateTime = moment(`${date} ${time}`, 'MMM-DD-YYYY hh:mm A')
@@ -35,6 +36,8 @@ module.exports = async function next (req, res) {
     const minutesUntilTrain = moment.duration(nextTrainDateTime.diff(requestDateTime)).asMinutes()
 
     res.send(`The next train to ${dest.name} from ${orig.name} is in ${minutesUntilTrain} minutes.`)
+  } else {
+    res.send('Invalid command!')
   }
 }
 

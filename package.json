@@ -4,15 +4,18 @@
     "axios": "^0.18.0",
     "body-parser": "^1.18.3",
     "express": "^4.16.4",
-    "moment": "^2.22.2",
-    "standard": "^12.0.1"
+    "moment": "^2.22.2"
   },
-  "engines": { 
-    "node" : ">=8.12.0"
+  "engines": {
+    "node": ">=8.12.0"
   },
   "license": "MIT",
   "respository": "git@github.com:matt-ball/bart-slack-app.git",
   "scripts": {
     "start": "node index.js"
+  },
+  "devDependencies": {
+    "newman": "^4.2.2",
+    "standard": "^12.0.1"
   }
 }
