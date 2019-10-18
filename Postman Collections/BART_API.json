@@ -1,0 +1,1173 @@
+{
+  "info": {
+    "_postman_id": "e89298c0-01d0-490c-bcc7-b75bd1e5850a",
+    "name": "BART API",
+    "description": "The BART API gives you access to pretty much all of the BART service and station data available on the BART website.\n\nOfficial documentation:\nhttp://api.bart.gov/docs/overview/index.aspx",
+    "schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Advisories",
+      "item": [
+        {
+          "name": "Service advisory",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "id": "cab1a06b-80d7-4cbf-949e-dfebf5249927",
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"No delays should be reported\", function () {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.expect(jsonData.root.bsa[0].description[\"#cdata-section\"]).to.eql(\"No delays reported.\");",
+                  "});"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "_postman_id": "48cda33b-ba9f-4b42-bacd-25ecd8d335d5",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "oauth2",
+              "oauth2": {
+                "addTokenTo": "header"
+              }
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://api.bart.gov/api/bsa.aspx?cmd=bsa&key={{key}}&json=y",
+              "protocol": "http",
+              "host": [
+                "api",
+                "bart",
+                "gov"
+              ],
+              "path": [
+                "api",
+                "bsa.aspx"
+              ],
+              "query": [
+                {
+                  "key": "cmd",
+                  "value": "bsa",
+                  "description": "Requests current BART service advisory (BSA) information (Required)"
+                },
+                {
+                  "key": "orig",
+                  "value": "",
+                  "description": "Only get messages for specified station. Defaults to \"all\". (Optional)\n[Note: currently only \"orig=all\" or leaving the orig parameter off are supported, the BART system does not currently provide station specific BSA messages.]",
+                  "type": "text",
+                  "disabled": true
+                },
+                {
+                  "key": "key",
+                  "value": "{{key}}",
+                  "description": "API registration key"
+                },
+                {
+                  "key": "json",
+                  "value": "y"
+                }
+              ]
+            },
+            "description": "Currently all BSA messages have a station code of \"BART\" signifying that they are system-wide. If future messages are tagged for specific stations, and a station is specified in the orig parameter, information will be provided for the specified station as well as any system-wide tagged messages. To get all messages, regardless of tags, specify \"orig=all\".\n\nThe \"type\" element will either be DELAY or EMERGENCY. The \"sms_text\" element is a shortened version of the \"description\" element for use with text messaging. This element might be longer than allowed in a single text message, so it might need to be broken up into several messages."
+          },
+          "response": [
+            {
+              "id": "a888459d-14fa-40f0-9c5b-3f817303e55b",
+              "name": "Service advisory",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "http://api.bart.gov/api/bsa.aspx?cmd=bsa&key={{key}}&json=y",
+                  "protocol": "http",
+                  "host": [
+                    "api",
+                    "bart",
+                    "gov"
+                  ],
+                  "path": [
+                    "api",
+                    "bsa.aspx"
+                  ],
+                  "query": [
+                    {
+                      "key": "cmd",
+                      "value": "bsa",
+                      "description": "Requests current BART service advisory (BSA) information (Required)"
+                    },
+                    {
+                      "key": "orig",
+                      "value": "",
+                      "description": "Only get messages for specified station. Defaults to \"all\". (Optional)\n[Note: currently only \"orig=all\" or leaving the orig parameter off are supported, the BART system does not currently provide station specific BSA messages.]",
+                      "type": "text",
+                      "disabled": true
+                    },
+                    {
+                      "key": "key",
+                      "value": "{{key}}",
+                      "description": "API registration key"
+                    },
+                    {
+                      "key": "json",
+                      "value": "y",
+                      "description": "Returns API output in JSON format. Default output is XML if parameter not specified. (Optional)"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Cache-Control",
+                  "value": "no-cache"
+                },
+                {
+                  "key": "Pragma",
+                  "value": "no-cache"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json; charset=utf-8"
+                },
+                {
+                  "key": "Expires",
+                  "value": "-1"
+                },
+                {
+                  "key": "Server",
+                  "value": "Microsoft-IIS/8.5"
+                },
+                {
+                  "key": "Access-Control-Allow-Origin",
+                  "value": "*"
+                },
+                {
+                  "key": "X-AspNet-Version",
+                  "value": "4.0.30319"
+                },
+                {
+                  "key": "X-Powered-By",
+                  "value": "ASP.NET"
+                },
+                {
+                  "key": "Date",
+                  "value": "Tue, 19 Feb 2019 21:19:39 GMT"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "329"
+                }
+              ],
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n\t\"foo\": \"bar\"\n}"
+            },
+            {
+              "id": "2a56584b-f453-44a1-a5a3-42f253bb42cb",
+              "name": "Service advisory (failure)",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "http://api.bart.gov/api/bsa.aspx?cmd=bsa&key={{key}}&json=y",
+                  "protocol": "http",
+                  "host": [
+                    "api",
+                    "bart",
+                    "gov"
+                  ],
+                  "path": [
+                    "api",
+                    "bsa.aspx"
+                  ],
+                  "query": [
+                    {
+                      "key": "cmd",
+                      "value": "bsa",
+                      "description": "Requests current BART service advisory (BSA) information (Required)"
+                    },
+                    {
+                      "description": "Only get messages for specified station. Defaults to \"all\". (Optional)\n[Note: currently only \"orig=all\" or leaving the orig parameter off are supported, the BART system does not currently provide station specific BSA messages.]",
+                      "key": "orig",
+                      "type": "text",
+                      "value": "",
+                      "disabled": true
+                    },
+                    {
+                      "key": "key",
+                      "value": "{{key}}",
+                      "description": "API registration key"
+                    },
+                    {
+                      "key": "json",
+                      "value": "y"
+                    }
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "_postman_previewlanguage": "json",
+              "header": null,
+              "cookie": [],
+              "responseTime": null,
+              "body": "{\n\t\"status\": \"failure\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Count",
+          "_postman_id": "83f901f0-819f-49e7-8e1a-f7d2e72c30db",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://api.bart.gov/api/bsa.aspx?cmd=count&key={{key}}&json=y",
+              "protocol": "http",
+              "host": [
+                "api",
+                "bart",
+                "gov"
+              ],
+              "path": [
+                "api",
+                "bsa.aspx"
+              ],
+              "query": [
+                {
+                  "key": "cmd",
+                  "value": "count",
+                  "description": "Requests current count of trains active in the system (Required)"
+                },
+                {
+                  "key": "key",
+                  "value": "{{key}}",
+                  "description": "API registration key (Required)"
+                },
+                {
+                  "key": "json",
+                  "value": "y",
+                  "description": "Returns API output in JSON format. Default output is XML if parameter not specified. (Optional)"
+                }
+              ]
+            },
+            "description": "Count of trains active"
+          },
+          "response": []
+        },
+        {
+          "name": "Elevators",
+          "_postman_id": "0dd205ac-80b7-4599-acde-2abba5b0c413",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://api.bart.gov/api/bsa.aspx?cmd=elev&key={{key}}&json=y",
+              "protocol": "http",
+              "host": [
+                "api",
+                "bart",
+                "gov"
+              ],
+              "path": [
+                "api",
+                "bsa.aspx"
+              ],
+              "query": [
+                {
+                  "key": "cmd",
+                  "value": "elev",
+                  "description": "Requests current elevator infromation (Required)"
+                },
+                {
+                  "key": "key",
+                  "value": "{{key}}",
+                  "description": "API registration key (Required)"
+                },
+                {
+                  "key": "json",
+                  "value": "y",
+                  "description": "Returns API output in JSON format. Default output is XML if parameter not specified. (Optional)"
+                }
+              ]
+            },
+            "description": "Current elevator information"
+          },
+          "response": []
+        }
+      ],
+      "_postman_id": "772618a4-ae38-4179-8417-fd46a6822522",
+      "description": "The Advisory Information API contains command for requesting information about BART Service Advisories (BSA), elevator messages, and current system train count. This information is pulled from the real-time information system that is used for the BART website as well as the station information signs. It is updated every minute.",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "id": "cf9f3868-689a-473e-940b-3a57decf2645",
+            "type": "text/javascript",
+            "exec": [
+              ""
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "id": "72020db2-c8ca-46c7-8579-84f5049fb219",
+            "type": "text/javascript",
+            "exec": [
+              ""
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Real-Time Estimates",
+      "item": [
+        {
+          "name": "Estimated time of departure",
+          "_postman_id": "fe57e5a4-6db8-415d-9e70-281956a1e113",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://api.bart.gov/api/etd.aspx?orig=MONT&cmd=etd&key={{key}}&dir=s&json=y",
+              "protocol": "https",
+              "host": [
+                "api",
+                "bart",
+                "gov"
+              ],
+              "path": [
+                "api",
+                "etd.aspx"
+              ],
+              "query": [
+                {
+                  "key": "orig",
+                  "value": "MONT",
+                  "description": "Specifies the station. Stations are referenced by their abbreviations. You can also use 'ALL' to get all of the current ETD's. (Required)"
+                },
+                {
+                  "key": "cmd",
+                  "value": "etd",
+                  "description": "Requests current departure information. (Required)"
+                },
+                {
+                  "key": "key",
+                  "value": "{{key}}",
+                  "description": "API registration key. (Required)"
+                },
+                {
+                  "description": "This will limit results to a specific platform. Valid platforms depend on the station, but can range from 1-4. (Optional)\n",
+                  "key": "plat",
+                  "type": "text",
+                  "value": "",
+                  "disabled": true
+                },
+                {
+                  "key": "dir",
+                  "value": "s",
+                  "description": "This will limit results to a specific direction. Valid directions are 'n' for Northbound and 's' for Southbound."
+                },
+                {
+                  "key": "json",
+                  "value": "y",
+                  "description": "Returns API output in JSON format. Default output is XML if parameter not specified. (Optional)"
+                }
+              ]
+            },
+            "description": "The optional parameters 'plat' and 'dir' should not be used together. If they are, then the 'dir' parameter will be ignored and just the platform parameter will be used.\n\nIf 'ALL' is used for the orig station, then 'plat' and 'dir' cannot be used.\n\nThe <delay> tag was added on 8/28/2017. Delay information is provided in seconds off of original scheduled time.\n\nIf the combination of 'platform' or 'dir' results in no ETD data, a warning message will be displayed."
+          },
+          "response": []
+        }
+      ],
+      "_postman_id": "881dcc9d-dda6-436e-bcd2-2074f98d2c7a",
+      "description": "The BART real-time information feed contains commands for requesting information about real-time estimated depatures for specific stations.",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "id": "8de6c1de-7f1a-4c65-b557-699307362155",
+            "type": "text/javascript",
+            "exec": [
+              ""
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "id": "6cdae93e-56d2-4d88-90d8-f50e5bbd9a8a",
+            "type": "text/javascript",
+            "exec": [
+              ""
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Route Information",
+      "item": [
+        {
+          "name": "Route info",
+          "_postman_id": "f3a33d09-de33-4552-9064-a510fe056a08",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://api.bart.gov/api/route.aspx?cmd=routeinfo&key={{key}}&route=6&json=y",
+              "protocol": "http",
+              "host": [
+                "api",
+                "bart",
+                "gov"
+              ],
+              "path": [
+                "api",
+                "route.aspx"
+              ],
+              "query": [
+                {
+                  "key": "cmd",
+                  "value": "routeinfo",
+                  "description": "Requests detailed information for a specific route. (Required)"
+                },
+                {
+                  "key": "key",
+                  "value": "{{key}}",
+                  "description": "API registration key. (Required)"
+                },
+                {
+                  "key": "route",
+                  "value": "6",
+                  "description": "Specifies the specific route information to return. In addition to route number (i.e. 1, 2, ... 12) 'all' can be specified to get the configuration information for all routes. (Required)"
+                },
+                {
+                  "key": "sched",
+                  "value": "",
+                  "description": "Specifies a specific schedule to use. Defaults to current schedule. (Optional)",
+                  "type": "text",
+                  "disabled": true
+                },
+                {
+                  "key": "date",
+                  "value": "",
+                  "description": "Specifies a specific date to use. This will determine the appropriate schedule for that date, and give back information about the routes for that schedule. Date can also be specified as \"today\" or \"now\". (Optional)",
+                  "type": "text",
+                  "disabled": true
+                },
+                {
+                  "key": "json",
+                  "value": "y",
+                  "description": "Returns API output in JSON format. Default output is XML if parameter not specified. (Optional)"
+                }
+              ]
+            },
+            "description": "Route information is sometimes updated with schedule changes as routes are reconfigured. This may affect the name and abbreviation of the route, as well as the number of stations.\n\nThe optional \"date\" and \"sched\" parameters should not be used together. If they are, the date will be ignored, and the sched parameter will be used.\n\nWARNING: the current \"color\" value is incorrect, it should be a text value (e.g. \"ORANGE\"). Please use the \"hexcolor\" value until the color value has been changed.\n\nThe configuration section lists the stations along the route in order from origin to destination."
+          },
+          "response": []
+        },
+        {
+          "name": "Routes",
+          "_postman_id": "57cb1848-489b-4117-be31-c4c47c10ec57",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://api.bart.gov/api/route.aspx?cmd=routes&key={{key}}&json=y",
+              "protocol": "http",
+              "host": [
+                "api",
+                "bart",
+                "gov"
+              ],
+              "path": [
+                "api",
+                "route.aspx"
+              ],
+              "query": [
+                {
+                  "key": "cmd",
+                  "value": "routes",
+                  "description": "Requests information regarding current lines. (Required)"
+                },
+                {
+                  "key": "key",
+                  "value": "{{key}}",
+                  "description": "API registration key. (Required)"
+                },
+                {
+                  "key": "sched",
+                  "value": "",
+                  "description": "Specifies a specific schedule to use. Defaults to current schedule. (Optional)",
+                  "type": "text",
+                  "disabled": true
+                },
+                {
+                  "key": "date",
+                  "value": "",
+                  "description": "Specifies a specific date to use. This will determine the appropriate schedule for that date, and give back information about the lines for that schedule. Date can also be specified as \"today\" or \"now\". (Optional)",
+                  "type": "text",
+                  "disabled": true
+                },
+                {
+                  "key": "json",
+                  "value": "y",
+                  "description": "Returns API output in JSON format. Default output is XML if parameter not specified. (Optional)"
+                }
+              ]
+            },
+            "description": "Route Information sometimes changes with schedule changes as routes are reconfigured. This may affect the name and abbreviation of the route.\n\nThe optional \"date\" and \"sched\" parameters should not be used together. If they are, the date will be ignored, and the sched parameter will be used.\n\nWARNING: the current \"color\" value is incorrect, it should be a text value (e.g. \"ORANGE\"). Please use the \"hexcolor\" value until the color value has been changed."
+          },
+          "response": []
+        }
+      ],
+      "_postman_id": "1e09dd7c-de73-478b-8b87-0b7a0f28fedb",
+      "description": "The BART Route Information feed contains commands for requesting information about the BART lines. Each line contains two routes (northbound and southbound)."
+    },
+    {
+      "name": "Schedule Information",
+      "item": [
+        {
+          "name": "Arrive",
+          "_postman_id": "a17377bc-b6f7-4cdd-9506-61cff2d7a82c",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://api.bart.gov/api/sched.aspx?cmd=arrive&key={{key}}&orig=MLBR&dest=MONT&date=now&b=2&a=2&json=y",
+              "protocol": "http",
+              "host": [
+                "api",
+                "bart",
+                "gov"
+              ],
+              "path": [
+                "api",
+                "sched.aspx"
+              ],
+              "query": [
+                {
+                  "key": "cmd",
+                  "value": "arrive",
+                  "description": "Requests a trip based on arriving at the time specified. (Required)"
+                },
+                {
+                  "key": "key",
+                  "value": "{{key}}",
+                  "description": "API registration key. (Required)"
+                },
+                {
+                  "key": "orig",
+                  "value": "MLBR",
+                  "description": "Specifies the origination station. Stations should be specified using the four character abbreviations. (Required)"
+                },
+                {
+                  "key": "dest",
+                  "value": "MONT",
+                  "description": "Specifies the destination station. Stations should be specified using the four character abbreviations. (Required)"
+                },
+                {
+                  "key": "date",
+                  "value": "now",
+                  "description": "Specifies the arrival time for the trip. Using \"time=now\" is also valid and will return the specified trips based on the current time. If not specified, defaults to the current time. (Optional)"
+                },
+                {
+                  "key": "time",
+                  "value": "",
+                  "description": "Specifies a specific date to use for calculating the trip. This will determine the appropriate schedule for that date, and give back information about the lines for that schedule. Date can also be specified as \"today\" or \"now\". The default is the current date. (Optional)",
+                  "type": "text",
+                  "disabled": true
+                },
+                {
+                  "key": "b",
+                  "value": "2",
+                  "description": "This allows specifying how many trips before the specified time should be returned. This paramter defaults to 2, and can be set between 0 and 4. (Optional)"
+                },
+                {
+                  "key": "a",
+                  "value": "2",
+                  "description": "This allows specifying how many trips after the specified time should be returned. This paramter defaults to 2, and can be set between 0 and 4. (Optional)"
+                },
+                {
+                  "key": "l",
+                  "value": "1",
+                  "description": "Specifies whether the legend information should be included. By default it is 0 (not shown), but can be turned on by setting it to 1. (Optional)",
+                  "disabled": true
+                },
+                {
+                  "key": "json",
+                  "value": "y",
+                  "description": "Returns API output in JSON format. Default output is XML if parameter not specified. (Optional)"
+                }
+              ]
+            },
+            "description": "The \"fare\" and \"clipper\" attributes of the <trip> element are depricated, and the <fares> element should be used instead.\n\nTrips can contain from 1 to 4 legs, depending on the number of transfers that are required.\n\nFare clases may change, but should always include a \"cash\" fare along with any other discount classes.\n\nThe Fare \"name\" attribute is the official BART name for the fare and should be used when displaying the fare.\n\nThe \"level\" attribute of the <fares> element is for future use and will currently always have a value of \"normal\".\n\nSpecial schedule messages will only be displayed if the trip date, time, and orig or dest stations match a special schedule notice.\n\nAny error messages will be included in an <error> item under the <message> element."
+          },
+          "response": []
+        },
+        {
+          "name": "Depart",
+          "_postman_id": "062eacd0-3827-4f91-a13b-9e6a4f572e1d",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://api.bart.gov/api/sched.aspx?cmd=depart&key={{key}}&orig=MLBR&dest=MONT&date=now&b=2&a=2&json=y",
+              "protocol": "http",
+              "host": [
+                "api",
+                "bart",
+                "gov"
+              ],
+              "path": [
+                "api",
+                "sched.aspx"
+              ],
+              "query": [
+                {
+                  "key": "cmd",
+                  "value": "depart",
+                  "description": "Requests a trip based on departing at the time specified. (Required)"
+                },
+                {
+                  "key": "key",
+                  "value": "{{key}}",
+                  "description": "API registration key. (Required)"
+                },
+                {
+                  "key": "orig",
+                  "value": "MLBR",
+                  "description": "Specifies the origination station. Stations should be specified using the four character abbreviations. (Required)"
+                },
+                {
+                  "key": "dest",
+                  "value": "MONT",
+                  "description": "Specifies the destination station. Stations should be specified using the four character abbreviations. (Required)"
+                },
+                {
+                  "key": "date",
+                  "value": "now",
+                  "description": "Specifies a specific date to use for calculating the trip. If not specified, the current date will be used. Also the terms \"now\" or \"today\" may be used instead of \"mm/dd/yyyy\". (Optional)"
+                },
+                {
+                  "key": "time",
+                  "value": "",
+                  "description": "Specifies the departure time for the trip. Using \"time=now\" is also valid and will return the specified trips based on the current time. If not specified, defaults to the current time. (Optional)",
+                  "type": "text",
+                  "disabled": true
+                },
+                {
+                  "key": "b",
+                  "value": "2",
+                  "description": "This allows specifying how many trips before the specified time should be returned. This paramter defaults to 2, and can be set between 0 and 4. (Optional)"
+                },
+                {
+                  "key": "a",
+                  "value": "2",
+                  "description": "This allows specifying how many trips after the specified time should be returned. This paramter defaults to 2, and can be set between 0 and 4. (Optional)"
+                },
+                {
+                  "key": "l",
+                  "value": "1",
+                  "description": "Specifies whether the legend information should be included. By default it is 0 (not shown), but can be turned on by setting it to 1. (Optional)",
+                  "disabled": true
+                },
+                {
+                  "key": "json",
+                  "value": "y",
+                  "description": "Returns API output in JSON format. Default output is XML if parameter not specified. (Optional)"
+                }
+              ]
+            },
+            "description": "The \"fare\" and \"clipper\" attributes of the <trip> element are depricated, and the <fares> element should be used instead.\n\nTrips can contain from 1 to 3 legs, depending on the number of transfers that are required.\n\nFare clases may change, but should always include a \"cash\" fare along with any other discount classes.\n\nThe Fare \"name\" attribute is the official BART name for the fare and should be used when displaying the fare.\n\nThe \"level\" attribute of the <fares> element is for future use and will currently always have a value of \"normal\".\n\nSpecial schedule messages will only be displayed if the trip date, time, and orig or dest stations match a special schedule notice.\n\nAny error messages will be included in an <error> item under the <message> element."
+          },
+          "response": []
+        },
+        {
+          "name": "Fare",
+          "_postman_id": "524dcb4d-bbae-4321-92d5-cadad4f6eace",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://api.bart.gov/api/sched.aspx?cmd=fare&key={{key}}&orig=MLBR&dest=MONT&date=today&json=y",
+              "protocol": "http",
+              "host": [
+                "api",
+                "bart",
+                "gov"
+              ],
+              "path": [
+                "api",
+                "sched.aspx"
+              ],
+              "query": [
+                {
+                  "key": "cmd",
+                  "value": "fare",
+                  "description": "Requests the fare information for a trip between two stations. (Required)"
+                },
+                {
+                  "key": "key",
+                  "value": "{{key}}",
+                  "description": "API registration key. (Required)"
+                },
+                {
+                  "key": "orig",
+                  "value": "MLBR",
+                  "description": "Specifies the origination station. Stations should be specified using the four character abbreviations. (Required)"
+                },
+                {
+                  "key": "dest",
+                  "value": "MONT",
+                  "description": "Specifies the destination station. Stations should be specified using the four character abbreviations. (Required)"
+                },
+                {
+                  "key": "date",
+                  "value": "today",
+                  "description": "Specifies a specific date to use for calculating the fare. If not specified, the current date will be used. Also the terms \"now\" or \"today\" may be used instead of \"mm/dd/yyyy\". (Optional)"
+                },
+                {
+                  "key": "sched",
+                  "value": "",
+                  "description": "Specifies a specific schedule to use. (Optional)",
+                  "type": "text",
+                  "disabled": true
+                },
+                {
+                  "key": "json",
+                  "value": "y",
+                  "description": "Returns API output in JSON format. Default output is XML if parameter not specified. (Optional)"
+                }
+              ]
+            },
+            "description": "The optional \"date\" and \"sched\" parameters should not be used together. If they are, the date will be ignored, and the sched parameter will be used.\n\nThe <trip> element has been depricated, and the <fares> element should be used instead.\n\nFare clases may change, but should always include a \"cash\" fare along with any other discount classes.\n\nThe Fare \"name\" attribute is the official BART name for the fare and should be used when displaying the fare.\n\nThe \"level\" attribute of the <fares> element is for future use and will currently always have a value of \"normal\".\n\nAny error messages will be included in an <error> item under the <message> element."
+          },
+          "response": []
+        },
+        {
+          "name": "Holiday",
+          "_postman_id": "ae863a7a-e914-4844-9e2a-e4d8839ef86a",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://api.bart.gov/api/sched.aspx?cmd=holiday&key={{key}}&json=y",
+              "protocol": "http",
+              "host": [
+                "api",
+                "bart",
+                "gov"
+              ],
+              "path": [
+                "api",
+                "sched.aspx"
+              ],
+              "query": [
+                {
+                  "key": "cmd",
+                  "value": "holiday",
+                  "description": "Requests information about the upcoming BART holidays, and what schedule will be run on those days. (Required)"
+                },
+                {
+                  "key": "key",
+                  "value": "{{key}}",
+                  "description": "API registration key. (Required)"
+                },
+                {
+                  "key": "json",
+                  "value": "y",
+                  "description": "Returns API output in JSON format. Default output is XML if parameter not specified. (Optional)"
+                }
+              ]
+            },
+            "description": "On BART Holidays, the trains may run on a different schedule from normal. This typically will mean that a Sunday/Holiday schedule will be used, however, sometimes a Saturday schedule is used. The Schedule Information API will automatically use the appropriate schedule for any trip that coincides with a BART holiday. In addition, a message will be appended to the trip results stating that a holiday schedule was used."
+          },
+          "response": []
+        },
+        {
+          "name": "Route schedules",
+          "_postman_id": "2b2b354b-9fb1-457c-9747-083c4ac08c81",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://api.bart.gov/api/sched.aspx?cmd=routesched&route=6&key={{key}}&time=12:47+am&json=y",
+              "protocol": "http",
+              "host": [
+                "api",
+                "bart",
+                "gov"
+              ],
+              "path": [
+                "api",
+                "sched.aspx"
+              ],
+              "query": [
+                {
+                  "key": "cmd",
+                  "value": "routesched",
+                  "description": "Requests detailed schedule information for a specific route. (Required)"
+                },
+                {
+                  "key": "route",
+                  "value": "6",
+                  "description": "Specifies a route information to return (i.e. 1, 2, ... 12). (Required)"
+                },
+                {
+                  "key": "key",
+                  "value": "{{key}}",
+                  "description": "API registration key. (Required)"
+                },
+                {
+                  "key": "date",
+                  "value": "",
+                  "description": "Specifies which date to use. This will determine the appropriate schedule for that date, and give back information about the lines for that schedule. Date can also be specified as \"today\" or \"now\". New options for generic schedules have been added: \"wd\", \"sa\", and \"su\" for weekday, Saturday and Sunday. (Optional)",
+                  "type": "text",
+                  "disabled": true
+                },
+                {
+                  "key": "time",
+                  "value": "12:47+am",
+                  "description": "Specifies what time to use. If none is specified, then the curren time is used. Times are only relevant if they are between midnight and BART midnight. In that case, the actual schedule shown will be for the prior day, which matches the output of other schedule commands, and a warning will appear in the <Message> block. (Optional)"
+                },
+                {
+                  "key": "l",
+                  "value": "",
+                  "description": "Specifies whether the legend information should be included. By default it is 0 (not shown), but can be turned on by setting it to 1. (Optional)",
+                  "type": "text",
+                  "disabled": true
+                },
+                {
+                  "key": "sched",
+                  "value": "",
+                  "description": "Specifies a specific schedule to use. Defaults to current schedule. This will override any date specified, so might provide incorrect results. (Optional)",
+                  "type": "text",
+                  "disabled": true
+                },
+                {
+                  "key": "json",
+                  "value": "y",
+                  "description": "Returns API output in JSON format. Default output is XML if parameter not specified. (Optional)"
+                }
+              ]
+            },
+            "description": "Route Information sometimes changes with schedule changes as lines are reconfigured. This may affect the name and abbreviation of the route.\n\nThe optional \"date\" and \"sched\" parameters should not be used together. If they are, the date will be ignored, and the sched parameter will be used.\n\nThe \"index\" attribute of the <train> has been depricated and the \"trainIdx\" attribute should be used instead.\n\nSpecial Schedule messages will only appear if they apply to the specified route on the given day.\n\nTrips between midnight and BART midnight will include a warning in the results stating that the schedule is for the prior day.\n\nAny error messages will be included in an <error> item under the <message> element."
+          },
+          "response": []
+        },
+        {
+          "name": "Schedules",
+          "_postman_id": "5b3b3dbb-55a0-411c-bb7a-aacb9f3cf57f",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://api.bart.gov/api/sched.aspx?cmd=scheds&key={{key}}&json=y",
+              "protocol": "http",
+              "host": [
+                "api",
+                "bart",
+                "gov"
+              ],
+              "path": [
+                "api",
+                "sched.aspx"
+              ],
+              "query": [
+                {
+                  "key": "cmd",
+                  "value": "scheds"
+                },
+                {
+                  "key": "key",
+                  "value": "{{key}}"
+                },
+                {
+                  "key": "json",
+                  "value": "y"
+                }
+              ]
+            },
+            "description": "This information is primarily useful when a new schedule has been announced and released. The API will automatically use the appropriate schedule based on the date specified in the call once a new schedule has been released."
+          },
+          "response": []
+        },
+        {
+          "name": "Special",
+          "_postman_id": "c21e6c1f-9a11-43d2-a16f-a3501cf6a026",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://api.bart.gov/api/sched.aspx?cmd=special&key={{key}}&l=1&json=y",
+              "protocol": "http",
+              "host": [
+                "api",
+                "bart",
+                "gov"
+              ],
+              "path": [
+                "api",
+                "sched.aspx"
+              ],
+              "query": [
+                {
+                  "key": "cmd",
+                  "value": "special",
+                  "description": "Requests information about the current and upcoming BART Special Schedules. (Required)"
+                },
+                {
+                  "key": "key",
+                  "value": "{{key}}",
+                  "description": "API registration key. (Required)"
+                },
+                {
+                  "key": "l",
+                  "value": "1",
+                  "description": "Specifies whether the legend information should be included. By default it is 0 (not shown), but can be turned on by setting it to 1. (Optional)"
+                },
+                {
+                  "key": "json",
+                  "value": "y",
+                  "description": "Returns API output in JSON format. Default output is XML if parameter not specified. (Optional)"
+                }
+              ]
+            },
+            "description": "Occasionally BART has special schedule announcements that affect certain stations (construction, etc.). If a trip is requested from the API, a message will be appended to the trip results stating that a special message may pertain to the trip. This API call provides all current and future special schedule notices. A notice is considered current or future if the end date is greater than or equal to the date the call is made.\n\nIf there is a related news article, then the link element will provide a URL to a BART news story."
+          },
+          "response": []
+        },
+        {
+          "name": "Station schedules",
+          "_postman_id": "35faa919-01b8-45b3-be74-c6155b7ce2a5",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://api.bart.gov/api/sched.aspx?cmd=stnsched&key={{key}}&orig=MLBR&json=y",
+              "protocol": "http",
+              "host": [
+                "api",
+                "bart",
+                "gov"
+              ],
+              "path": [
+                "api",
+                "sched.aspx"
+              ],
+              "query": [
+                {
+                  "key": "cmd",
+                  "value": "stnsched",
+                  "description": "Requests detailed scheduled information for a specific station. (Required)"
+                },
+                {
+                  "key": "key",
+                  "value": "{{key}}",
+                  "description": "API registration key. (Required)"
+                },
+                {
+                  "key": "orig",
+                  "value": "MLBR",
+                  "description": "The station for which a schedule is requested. (Required)"
+                },
+                {
+                  "key": "date",
+                  "value": "",
+                  "description": "Specifies a specific date to use. This will determine the appropriate schedule for that date, and give back information about the station for that schedule. Date can also be specified as \"today\" or \"now\". (Optional)",
+                  "type": "text",
+                  "disabled": true
+                },
+                {
+                  "key": "json",
+                  "value": "y",
+                  "description": "Returns API output in JSON format. Default output is XML if parameter not specified. (Optional)"
+                }
+              ]
+            },
+            "description": "Schedule information for a specific station."
+          },
+          "response": []
+        }
+      ],
+      "_postman_id": "e83762e6-83e1-43bf-91ad-72360b68b8bd",
+      "description": "The BART Schedule Information feed contains commands for requesting information about the BART schedules and trip planning. Each line contains two routes (northbound and southbound)."
+    },
+    {
+      "name": "Station Information",
+      "item": [
+        {
+          "name": "Station information",
+          "_postman_id": "04e16913-9892-4d6d-bb18-ae669b53ff5c",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://api.bart.gov/api/stn.aspx?cmd=stninfo&key={{key}}&orig=MLBR&json=y",
+              "protocol": "http",
+              "host": [
+                "api",
+                "bart",
+                "gov"
+              ],
+              "path": [
+                "api",
+                "stn.aspx"
+              ],
+              "query": [
+                {
+                  "key": "cmd",
+                  "value": "stninfo",
+                  "description": "Requests detailed information on the specified station. (Required)"
+                },
+                {
+                  "key": "key",
+                  "value": "{{key}}",
+                  "description": "API registration key (Required)"
+                },
+                {
+                  "key": "orig",
+                  "value": "MLBR",
+                  "description": "Specifies the origination station. Stations should be specified using the four character abbreviations. (Required)"
+                },
+                {
+                  "key": "json",
+                  "value": "y",
+                  "description": "Returns API output in JSON format. Default output is XML if parameter not specified. (Optional)"
+                }
+              ]
+            },
+            "description": "Information for a specified station."
+          },
+          "response": []
+        },
+        {
+          "name": "Stations",
+          "_postman_id": "d1ff0563-6e5d-4ec9-b305-5db1b314bcf0",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://api.bart.gov/api/stn.aspx?cmd=stns&key={{key}}&json=y",
+              "protocol": "http",
+              "host": [
+                "api",
+                "bart",
+                "gov"
+              ],
+              "path": [
+                "api",
+                "stn.aspx"
+              ],
+              "query": [
+                {
+                  "key": "cmd",
+                  "value": "stns",
+                  "description": "Requests current API version information (Required)"
+                },
+                {
+                  "key": "key",
+                  "value": "{{key}}",
+                  "description": "API registration key (Required)"
+                },
+                {
+                  "key": "json",
+                  "value": "y",
+                  "description": "Returns API output in JSON format. Default output is XML if parameter not specified. (Optional)"
+                }
+              ]
+            },
+            "description": "This command provides a list of all of the BART stations with their full names, abbreviations, latitude, longitude and addresses."
+          },
+          "response": []
+        }
+      ],
+      "_postman_id": "bfd439ae-b968-49e2-a409-1defb4e0b5f0",
+      "description": "The BART Station Information feed contains commands for requesting information about the BART stations."
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "id": "7bed0507-9935-49b7-8234-bb91a98df336",
+        "type": "text/javascript",
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "id": "5f56cb77-d37e-492d-81e7-b3b1b26367e0",
+        "type": "text/javascript",
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ]
+}
